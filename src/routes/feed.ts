@@ -4,7 +4,7 @@ import { Client } from "pg";
 export default (client: Client): Application => {
   const app: Application = express();
   app.get("/foods", (req, res) => {
-    client.query("SELECT * FROM Items", (dbErr, dbRes) => {
+    client.query(" SELECT * FROM Items INNER JOIN Users ON Users.id = Items.sellerid", (dbErr, dbRes) => {
       if (dbErr) {
         res.status(500).send(dbErr);
       } else {
