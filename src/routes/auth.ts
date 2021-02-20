@@ -21,7 +21,7 @@ export default (client: Client): Application => {
         } else {
           client.query(
             "INSERT INTO Users (username, password, bio, location, address, name) VALUES ($1, $2, ST_GeomFromText('POINT($3 $4)'), $5, $6) RETURNING id",
-            [username, hash, bio, lat, long, address],
+            [username, hash, bio, lat, long, address, name],
             (dbErr, dbRes) => {
               if (dbErr) {
                 res.status(500).send(dbErr.toString());
