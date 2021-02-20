@@ -1,8 +1,6 @@
-import { application } from "express";
 import express, { Application } from "express";
 import { Client } from "pg";
-import { type } from "os";
-export default (client: Client) => {
+export default (client: Client): Application => {
   const app = express();
   app.get("me", (req, res) => {
     if (req.session.userID != null) {
@@ -23,19 +21,21 @@ export default (client: Client) => {
   });
   app.get("@:username", (req, res) => {
     if (req.session.userID != null) {
-        res.sendStatus(500);
-      } else {
-        client.query(
-          "SELECT * FROM Users WHERE username = $1 LIMIT 1",
-          [req.params.username],
-          (dbErr, dbRes) => {
-            if (dbErr) {
-              res.status(500).send(dbErr);
-            } else {
-              res.send(dbRes.rows);
-            }
+      res.sendStatus(500);
+    } else {
+      client.query(
+        "SELECT * FROM Users WHERE username = $1 LIMIT 1",
+        [req.params.username],
+        (dbErr, dbRes) => {
+          if (dbErr) {
+            res.status(500).send(dbErr);
+          } else {
+            res.send(dbRes.rows);
           }
-        );
-      }
+        }
+      );
+    }
   });
+
+  return app;
 };
