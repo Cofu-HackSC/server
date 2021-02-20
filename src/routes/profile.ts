@@ -21,5 +21,21 @@ export default (client: Client) => {
       );
     }
   });
-  app.get("@:user_id", (req, res) => {});
+  app.get("@:username", (req, res) => {
+    if (req.session.userID != null) {
+        res.sendStatus(500);
+      } else {
+        client.query(
+          "SELECT * FROM Users WHERE username = $1 LIMIT 1",
+          [req.params.username],
+          (dbErr, dbRes) => {
+            if (dbErr) {
+              res.status(500).send(dbErr);
+            } else {
+              res.send(dbRes.rows);
+            }
+          }
+        );
+      }
+  });
 };
