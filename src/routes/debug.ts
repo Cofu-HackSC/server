@@ -10,6 +10,8 @@ export default (): Application => {
   app.get("/status", (_req, res) => {
     res.send("Operational🌟 " + Date());
   });
-  
+  app.get("/authors", (_req, res) => {
+    res.send("good question")
+  });
   return app;
 };
