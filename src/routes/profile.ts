@@ -4,7 +4,7 @@ export default (client: Client): Application => {
   const app = express();
   app.get("me", (req, res) => {
     if (req.session.userID != null) {
-      res.sendStatus(500);
+      res.status(500).send("SEND YOUR SESSION");
     } else {
       client.query(
         "SELECT * FROM Users WHERE id = $1 LIMIT 1",
@@ -21,7 +21,7 @@ export default (client: Client): Application => {
   });
   app.get("@:username", (req, res) => {
     if (req.session.userID != null) {
-      res.sendStatus(500);
+        res.status(500).send("SEND YOUR SESSION");
     } else {
       client.query(
         "SELECT * FROM Users WHERE username = $1 LIMIT 1",
