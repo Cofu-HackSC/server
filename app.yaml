@@ -8,6 +8,7 @@ env_variables:
   PGPORT: 5432
   IPBIND: '0.0.0.0'
   REDISHOST: '10.18.97.75'
+  GCLOUD_STORAGE_BUCKET: cofustorage
 
 vpc_access_connector:
   name: projects/cofu-305406/locations/us-west2/connectors/cofu-sessions-connector
