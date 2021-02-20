@@ -7,6 +7,7 @@ export default (client: Client): Application => {
   const app = express();
 
   app.post("/signup", async (req, res) => {
+    let name: string = req.body.name ?? "";
     let username: string = req.body.username ?? "";
     let password: string = req.body.password ?? "";
     let bio: string = req.body.bio ?? "";
@@ -18,8 +19,8 @@ export default (client: Client): Application => {
           res.status(500).send("HASH ERROR");
         } else {
           client.query(
-            "INSERT INTO Users (username, password, bio, location, address) VALUES ($1, $2, $3, $4) RETURNING id",
-            [username, hash, bio, location, address],
+            "INSERT INTO Users (username, password, bio, location, address, name) VALUES ($1, $2,ST_GeomFromText('POINT($3 $4))', $5, $6) RETURNING id",
+            [username, hash, bio, location[0], location[1], address],
             (dbErr, dbRes) => {
               if (dbErr) {
                 res.status(500).send(dbErr.toString());
