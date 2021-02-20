@@ -60,6 +60,6 @@ start();
 
 declare module 'express-session' {
   interface Session {
-    id: string
+    userID: string
   }
 }
