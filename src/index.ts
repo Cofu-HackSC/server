@@ -17,11 +17,9 @@ let start = async () => {
 
   app.use("/auth", auth(client));
 
-  app.listen(port, process.env.LOCALDEV ? "127.0.0.1" : "0.0.0.0", () => {
+  app.listen(port, process.env.IPBIND as string, () => {
     console.log(
-      "Cofu running at http://" + process.env.LOCALDEV
-        ? "127.0.0.1"
-        : "0.0.0.0" + ":${port} " + Date()
+      "Cofu running at http://" + process.env.IPBIND + `:${port} ` + Date()
     );
   });
 };
