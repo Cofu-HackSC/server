@@ -61,7 +61,7 @@ CREATE TABLE CookProfiles (
     deliveryDistance NUMERIC
 );
 
-CREATE TABLE CookApplication (
+CREATE TABLE CookApplications (
     id UUID NOT NULL PRIMARY KEY UNIQUE REFERENCES Users (id),
     insuranceProofURI TEXT,
     cottageFoodLicenseURI TEXT,
