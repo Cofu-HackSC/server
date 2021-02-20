@@ -23,11 +23,13 @@
   },
   "homepage": "https://github.com/Cofu-HackSC/server#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "connect-redis": "^5.1.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "node-fetch": "^2.6.1",
     "pg": "^8.5.1",
     "redis": "^3.0.2"
   },
