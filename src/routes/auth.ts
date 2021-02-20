@@ -48,8 +48,8 @@ export default (client: Client): Application => {
     let username: string = req.body.username;
     let password: string = req.body.password;
     client.query(
-      "SELECT id, password FROM Users WHERE username = $1 AND password = $2",
-      [username, password],
+      "SELECT id, password FROM Users WHERE username = $1",
+      [username],
       (dbErr, dbRes) => {
         if (dbErr) {
           res.status(500).send(dbErr);
