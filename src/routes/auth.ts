@@ -1,7 +1,6 @@
 import express, { Application } from "express";
 import { Client } from "pg";
 import bcrypt from "bcrypt";
-import e from "express";
 
 export default (client: Client): Application => {
   const app = express();
@@ -11,9 +10,12 @@ export default (client: Client): Application => {
     let username: string = req.body.username ?? "";
     let password: string = req.body.password ?? "";
     let bio: string = req.body.bio ?? "";
-    let lat: number = 34.0522;
-    let long: number = 118.2437;
+    let lat: number = req.body.lat;
+    let long: number = req.body.long;
     let address: string = req.body.address ?? "";
+    if(lat == null || long == null){
+      res.status(400).send('SEND A LAT LONG')
+    }else 
     if (password.length > 5) {
       bcrypt.hash(password, 10, function (err, hash) {
         if (err) {
