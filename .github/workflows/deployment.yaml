@@ -16,7 +16,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Build app
-        run: npm run build-ts
+        run: npm run build
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
