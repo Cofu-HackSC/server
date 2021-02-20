@@ -6,3 +6,4 @@ env_variables:
   PGDATABASE: 'cofu'
   PGPASSWORD: '4q1Bx4M1EC53cyb7'
   PGPORT: 5432
+  LOCALDEV: FALSE

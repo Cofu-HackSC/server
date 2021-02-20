@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import { Client } from "pg";
 
@@ -11,15 +13,17 @@ let start = async () => {
   const client = new Client();
   await client.connect();
 
-
   app.use("/", debug());
 
   app.use("/auth", auth(client));
-  
-  app.listen(port, "0.0.0.0", () => {
-    console.log(`Cofu running at http://0.0.0.0:${port}` + Date());
+
+  app.listen(port, process.env.LOCALDEV ? "127.0.0.1" : "0.0.0.0", () => {
+    console.log(
+      "Cofu running at http://" + process.env.LOCALDEV
+        ? "127.0.0.1"
+        : "0.0.0.0" + ":${port} " + Date()
+    );
   });
 };
 
-
-start()
+start();
