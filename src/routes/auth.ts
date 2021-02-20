@@ -16,7 +16,7 @@ export default (client: Client): Application => {
         if (err) {
           res.status(500).send('HASH ERROR');
         } else {
-            client.query('INSERT INTO Users (username, password, bio, location, address) VALUES ($1, $2, $3, $4) RETURNING id', [username, password, bio, location, address], (dbErr, dbRes)=>{
+            client.query('INSERT INTO Users (username, password, bio, location, address) VALUES ($1, $2, $3, $4) RETURNING id', [username, hash, bio, location, address], (dbErr, dbRes)=>{
                 if(dbErr){
                     res.status(500).send(dbErr.toString())
                 }else{
