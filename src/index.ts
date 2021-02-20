@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express from "express";
+import express, { application } from "express";
 import { Client } from "pg";
 
 import session from "express-session";
@@ -17,6 +17,7 @@ import debug from "./routes/debug";
 import auth from "./routes/auth";
 import feed from "./routes/feed";
 import profile from "./routes/profile";
+import apply from "./routes/apply";
 
 const app = express();
 
@@ -54,7 +55,7 @@ let start = async () => {
   app.use("/feeds", feed(client));
 
   app.use("/", profile(client));
-
+  app.use("/", apply(client));
 
   app.listen(port, process.env.IPBIND as string, () => {
     console.log(
@@ -65,8 +66,8 @@ let start = async () => {
 
 start();
 
-declare module 'express-session' {
+declare module "express-session" {
   interface Session {
-    userID: string
+    userID: string;
   }
 }
