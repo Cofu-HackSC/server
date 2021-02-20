@@ -49,7 +49,10 @@ CREATE TABLE Sales (
     -- TODO: CHECK BETWEEN 0 AND 5
     rating NUMERIC,
     ratingText TEXT,
-    hide BOOLEAN DEFAULT FALSE
+    hide BOOLEAN DEFAULT FALSE,
+    pickup BOOLEAN DEFAULT FALSE,
+    createdAt TIMESTAMP DEFAULT NOW(),
+    fulfilled BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE CookProfiles (

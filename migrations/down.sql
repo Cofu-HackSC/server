@@ -1,6 +1,6 @@
 -- Tables
 
-DROP TABLE CookApplication;
+DROP TABLE CookApplications;
 
 DROP TABLE CookProfiles;
 
