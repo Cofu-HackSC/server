@@ -11,7 +11,8 @@ export default (client: Client): Application => {
     let username: string = req.body.username ?? "";
     let password: string = req.body.password ?? "";
     let bio: string = req.body.bio ?? "";
-    let location: [number, number] = req.body.location;
+    let lat: number = 34.0522;
+    let long: number = 118.2437;
     let address: string = req.body.address ?? "";
     if (password.length > 5) {
       bcrypt.hash(password, 10, function (err, hash) {
@@ -20,7 +21,7 @@ export default (client: Client): Application => {
         } else {
           client.query(
             "INSERT INTO Users (username, password, bio, location, address, name) VALUES ($1, $2, ST_GeomFromText('POINT($3 $4))', $5, $6) RETURNING id",
-            [username, hash, bio, location[0], location[1], address],
+            [username, hash, bio, lat, long, address],
             (dbErr, dbRes) => {
               if (dbErr) {
                 res.status(500).send(dbErr.toString());
