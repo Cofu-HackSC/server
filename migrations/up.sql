@@ -9,7 +9,7 @@ CREATE TABLE Users (
     name TEXT NOT NULL,
     bio TEXT NOT NULL,
     photoUrl TEXT,
-    location geography(POINT)
+    location geography(POINT),
     address TEXT,
     isCook BOOLEAN,
     username TEXT NOT NULL UNIQUE,
@@ -58,7 +58,7 @@ CREATE TABLE CookProfiles (
     averageSaleRating NUMERIC,
     insuranceProofURI TEXT,
     cottageFoodLicenseURI TEXT,
-    deliveryDistance NUMBER
+    deliveryDistance NUMERIC
 );
 
 CREATE TABLE CookApplication (
