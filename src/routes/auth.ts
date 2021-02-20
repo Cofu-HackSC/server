@@ -13,16 +13,19 @@ export default (client: Client): Application => {
     let lat: number = req.body.lat;
     let long: number = req.body.long;
     let address: string = req.body.address ?? "";
-    if(lat == null || long == null){
-      res.status(400).send('SEND A LAT LONG')
-    }else 
-    if (password.length > 5) {
+    if (lat == null || long == null) {
+      res.status(400).send("SEND A LAT LONG");
+    } else if (password.length > 5) {
       bcrypt.hash(password, 10, function (err, hash) {
         if (err) {
           res.status(500).send("HASH ERROR");
         } else {
           client.query(
-            "INSERT INTO Users (username, password, bio, address, name, location) VALUES ($1, $2, $3, $4, $5, ST_GeomFromText('POINT("+lat +" "+long+")')) RETURNING id",
+            "INSERT INTO Users (username, password, bio, address, name, location) VALUES ($1, $2, $3, $4, $5, ST_GeomFromText('POINT(" +
+              lat +
+              " " +
+              long +
+              ")')) RETURNING id",
             [username, hash, bio, address, name],
             (dbErr, dbRes) => {
               if (dbErr) {
@@ -44,28 +47,30 @@ export default (client: Client): Application => {
   app.post("/signin", (req, res) => {
     let username: string = req.body.username;
     let password: string = req.body.password;
-    bcrypt.hash(password, 10, (err, hash) => {
-      if (err) {
-        res.status(500).send("HASH ERROR");
-      } else {
-        client.query(
-          "SELECT id FROM Users WHERE username = $1 AND password = $2",
-          [username, hash],
-          (dbErr, dbRes) => {
-            if (dbErr) {
-              res.status(500).send(dbErr);
+    client.query(
+      "SELECT id, password FROM Users WHERE username = $1 AND password = $2",
+      [username, password],
+      (dbErr, dbRes) => {
+        if (dbErr) {
+          res.status(500).send(dbErr);
+        } else {
+          if (dbRes.rowCount == 0) {
+            res.status(500).send("Authentication Failed DB");
+          } else {
+            let match: boolean = bcrypt.compareSync(
+              password,
+              dbRes.rows[0].password
+            );
+            if (match) {
+              req.session.userID = dbRes.rows[0].id;
+              res.status(200).send("Logged In successfully");
             } else {
-              if (dbRes.rowCount == 0) {
-                res.status(401).send("Authentication Failed");
-              } else {
-                req.session.userID = dbRes.rows[0].id;
-                res.status(200).send("Logged In successfully");
-              }
+              res.status(401).send("Authentication Failed");
             }
           }
-        );
+        }
       }
-    });
+    );
   });
 
   app.post("/deleteaccount", (req, res) => {
