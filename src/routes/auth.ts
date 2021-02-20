@@ -37,13 +37,6 @@ export default (client: Client): Application => {
         .status(422)
         .send("Password too short -  must be greater than 5 characters");
     }
-    /* TODO:
-        1. Check that both username and password are not null
-        2. use Bcrypt to hash password
-        3. Parse location possibly
-        4. store in database
-        5. return 202 if succeeded, 500 if failed 
-        */
   });
   app.post("/signin", (req, res) => {
     let username: string = req.body.username;

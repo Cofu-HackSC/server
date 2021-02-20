@@ -15,6 +15,7 @@ const RedisStore = RedisStoreUninitialized(session);
 
 import debug from "./routes/debug";
 import auth from "./routes/auth";
+import feed from "./routes/feed";
 
 const app = express();
 
@@ -48,6 +49,8 @@ let start = async () => {
   app.use("/", debug());
 
   app.use("/auth", auth(client));
+
+  app.use("/feeds", feed(client));
 
   app.listen(port, process.env.IPBIND as string, () => {
     console.log(
