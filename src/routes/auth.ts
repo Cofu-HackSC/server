@@ -20,8 +20,8 @@ export default (client: Client): Application => {
           res.status(500).send("HASH ERROR");
         } else {
           client.query(
-            "INSERT INTO Users (username, password, bio, address, name, location) VALUES ($1, $2, $3, $4, $5, ST_GeomFromText('POINT(-71.064544 42.28787)')) RETURNING id",
-            [username, hash, bio, address, name],
+            "INSERT INTO Users (username, password, bio, address, name, location) VALUES ($1, $2, $3, $4, $5, ST_GeomFromText('POINT($6 $7)')) RETURNING id",
+            [username, hash, bio, address, name, lat, long],
             (dbErr, dbRes) => {
               if (dbErr) {
                 res.status(500).send(dbErr.toString());
