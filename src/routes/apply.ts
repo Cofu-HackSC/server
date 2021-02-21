@@ -27,7 +27,7 @@ export default (client: Client): Application => {
     }
 
     // Create a new blob in the bucket and upload the file data.
-    const blob = bucket.file(req.session.userID);
+    const blob = bucket.file(req.session.userID+'.jpeg');
     const blobStream = blob.createWriteStream();
 
     blobStream.on("error", (err) => {
