@@ -36,6 +36,13 @@ export default (client: Client): Application => {
     });
 
     blobStream.on("finish", () => {
+      const publicUrl = format(
+        `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+      );
+      client.query(
+        "INSERT INTO CookApplications (id, cottageFoodLicenseURI, approved) VALUES ($1, $2, True)",
+        [req.session.userID, publicUrl]
+      );
       client.query(
         "UPDATE Users SET isCook = TRUE WHERE id = $1",
         [req.session.userID],
@@ -48,9 +55,7 @@ export default (client: Client): Application => {
         }
       );
       // The public URL can be used to directly access the file via HTTP.
-      const publicUrl = format(
-        `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-      );
+
       res.status(200).send(publicUrl);
     });
 
