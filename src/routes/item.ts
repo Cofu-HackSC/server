@@ -26,7 +26,12 @@ export default (client: Client): Application => {
       let description: string = req.body.description;
       let ingredients: string = req.body.ingredients;
       let stock: string = req.body.stock;
-      const blob = bucket.file("items/" + req.session.userID+(Date()+1).toString() + ".jpeg");
+      const blob = bucket.file(
+        "items/" +
+          req.session.userID +
+          Math.random().toString(36).substring(7) +
+          ".jpeg"
+      );
       const blobStream = blob.createWriteStream();
 
       blobStream.on("error", (err) => {
