@@ -18,6 +18,7 @@ import auth from "./routes/auth";
 import feed from "./routes/feed";
 import profile from "./routes/profile";
 import apply from "./routes/apply";
+import item from "./routes/item";
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
 
-const port = (process.env.PORT as unknown as number) ?? 8080;
+const port = ((process.env.PORT as unknown) as number) ?? 8080;
 
 let start = async () => {
   const client = new Client();
@@ -56,6 +57,7 @@ let start = async () => {
 
   app.use("/", profile(client));
   app.use("/", apply(client));
+  app.use("/", item(client));
 
   app.listen(port, process.env.IPBIND as string, () => {
     console.log(
