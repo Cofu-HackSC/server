@@ -17,7 +17,7 @@ export default (client: Client): Application => {
   const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET as string);
 
   app.post("/application", upload.single("file"), (req, res) => {
-    if(req.session.userID == null){
+    if (req.session.userID == null) {
       res.status(400).send("Auth failed");
       return;
     }
@@ -27,15 +27,26 @@ export default (client: Client): Application => {
     }
 
     // Create a new blob in the bucket and upload the file data.
-    const blob = bucket.file('licences/'+req.session.userID+'.jpeg');
+    const blob = bucket.file("licences/" + req.session.userID + ".jpeg");
     const blobStream = blob.createWriteStream();
 
     blobStream.on("error", (err) => {
-        console.log(err);
+      console.log(err);
       res.status(501).send(err);
     });
 
     blobStream.on("finish", () => {
+      client.query(
+        "UPDATE Users SET isCook = TRUE WHERE id = $1",
+        [req.session.userID],
+        (dbErr, dbRes) => {
+          if (dbErr) {
+            res.status(501).send("DB ERROR MY MAN");
+          } else {
+            res.sendStatus(200);
+          }
+        }
+      );
       // The public URL can be used to directly access the file via HTTP.
       const publicUrl = format(
         `https://storage.googleapis.com/${bucket.name}/${blob.name}`
