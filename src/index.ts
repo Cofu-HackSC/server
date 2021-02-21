@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
 
-const port = process.env.PORT ?? 8080;
+const port = (process.env.PORT as unknown as number) ?? 8080;
 
 let start = async () => {
   const client = new Client();
