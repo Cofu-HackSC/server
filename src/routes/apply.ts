@@ -30,7 +30,7 @@ export default (client: Client): Application => {
     const blob = bucket.file("licenses/" + req.session.userID + ".jpeg");
     const blobStream = blob.createWriteStream();
     blobStream.on("error", (err) => {
-      res.status(500).send(err);
+      res.status(501).send(err);
     });
 
     blobStream.on("finish", () => {
@@ -43,7 +43,7 @@ export default (client: Client): Application => {
         [req.session.userID, publicUrl, true],
         (dbErr, dbRes) => {
           if (dbErr) {
-            res.sendStatus(500);
+            res.status(501).send(dbErr);
           } else {
             res.status(200).send(publicUrl);
           }
