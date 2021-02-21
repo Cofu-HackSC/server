@@ -18,6 +18,10 @@ export default (client: Client): Application => {
   app.post("/item", upload.single("file"), (req, res) => {
     if (!req.session.userID) {
       res.sendStatus(403);
+    }
+    if (!req.file) {
+      res.status(400).send("No file uploaded.");
+      return;
     } else {
       let name: string = req.body.name;
       let pickup: string = req.body.pickup;
@@ -26,12 +30,8 @@ export default (client: Client): Application => {
       let description: string = req.body.description;
       let ingredients: string = req.body.ingredients;
       let stock: string = req.body.stock;
-      const blob = bucket.file(
-        "items/" +
-          req.session.userID +
-          Math.random().toString(36).substring(7) +
-          ".jpeg"
-      );
+      
+      const blob = bucket.file("items/" + req.session.userID + ".jpeg");
       const blobStream = blob.createWriteStream();
 
       blobStream.on("error", (err) => {
@@ -63,6 +63,7 @@ export default (client: Client): Application => {
             }
           }
         );
+        blobStream.end(req.file.buffer);
       });
     }
   });
