@@ -39,7 +39,7 @@ export default (client: Client): Application => {
         `https://storage.googleapis.com/${bucket.name}/${blob.name}`
       );
       client.query(
-        "INSERT INTO CookApplications (id, cottageFoodLicenseURI, approved) VALUES($1, $2, $3)",
+        "INSERT INTO CookApplications (id, cottageFoodLicenseURI, approved) VALUES ($1, $2, $3)",
         [req.session.userID, publicUrl, true],
         (dbErr, dbRes) => {
           if (dbErr) {
