@@ -2,7 +2,7 @@ import express, { Application } from "express";
 import { Client } from "pg";
 export default (client: Client): Application => {
   const app = express();
-  app.get("me", (req, res) => {
+  app.get("/me", (req, res) => {
     if (req.session.userID != null) {
       res.status(500).send("SEND YOUR SESSION");
     } else {
