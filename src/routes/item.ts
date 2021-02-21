@@ -30,8 +30,8 @@ export default (client: Client): Application => {
       let description: string = req.body.description;
       let ingredients: string = req.body.ingredients;
       let stock: string = req.body.stock;
-      
-      const blob = bucket.file("items/" + req.session.userID + ".jpeg");
+
+      const blob = bucket.file("items/" + "sos" + ".jpeg");
       const blobStream = blob.createWriteStream();
 
       blobStream.on("error", (err) => {
