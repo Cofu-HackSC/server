@@ -17,13 +17,17 @@ export default (client: Client): Application => {
   const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET as string);
 
   app.post("/application", upload.single("file"), (req, res) => {
+    if(req.session.userID == null){
+      res.status(400).send("Auth failed");
+      return;
+    }
     if (!req.file) {
       res.status(400).send("No file uploaded.");
       return;
     }
 
     // Create a new blob in the bucket and upload the file data.
-    const blob = bucket.file('pleasework');
+    const blob = bucket.file(req.session.userID);
     const blobStream = blob.createWriteStream();
 
     blobStream.on("error", (err) => {
