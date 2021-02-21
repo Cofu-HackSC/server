@@ -23,11 +23,12 @@ export default (client: Client): Application => {
     }
 
     // Create a new blob in the bucket and upload the file data.
-    const blob = bucket.file(req.file.originalname);
+    const blob = bucket.file('pleasework');
     const blobStream = blob.createWriteStream();
 
     blobStream.on("error", (err) => {
-      res.status(500).send(err);
+        console.log(err);
+      res.status(501).send(err);
     });
 
     blobStream.on("finish", () => {
