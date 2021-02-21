@@ -5,7 +5,7 @@ export default (client: Client): Application => {
   const app: Application = express();
   app.get("/foods", (req, res) => {
     client.query(
-      "SELECT * FROM Items INNER JOIN Users ON Users.id = Items.sellerid",
+      " SELECT Users.*, Users.photoURL as profileImage, Items.*  FROM Items INNER JOIN Users ON Users.id = Items.sellerID",
       (dbErr, dbRes) => {
         if (dbErr) {
           res.status(500).send(dbErr);
@@ -19,7 +19,7 @@ export default (client: Client): Application => {
   app.get("/search", (req, res) => {
     let search: string = req.body;
     client.query(
-      "SELECT * FROM Items INNER JOIN Users ON Users.id = Items.sellerid WHERE $1 IN (Items.name, Items.description, Items.ingredients)",
+      " SELECT Users.*, Users.photoURL as profileImage, Items.*  FROM Items INNER JOIN Users ON Users.id = Items.sellerID  WHERE $1 IN (Items.name, Items.description, Items.ingredients)",
       [search],
       (dbErr, dbRes) => {
         if (dbErr) {
